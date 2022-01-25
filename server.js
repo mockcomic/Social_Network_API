@@ -7,7 +7,6 @@ const PORT = process.env.PORT || 3001;
 mongoose.connect(
 	process.env.MONGODB_URI || 'mongodb://localhost/social-Network',
 	{
-		useFindAndModify: false,
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	}
