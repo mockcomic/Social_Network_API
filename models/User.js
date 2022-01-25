@@ -1,47 +1,49 @@
+const { type } = require('express/lib/response');
 const { Schema, model } = require('mongoose');
 
 const UserSchema = new Schema(
-  {
-    firstName: {
-      type: String,
-      trim: true,
-      required: 'First Name is Required'
-    },
+	{
+		username: {
+			type: String,
+			unique: true,
+			required: 'username is Required',
+			trim: true,
+		},
 
-    lastName: {
-      type: String,
-      trim: true,
-      required: 'Last Name is Required'
-    },
+		email: {
+			type: String,
+			required: 'email is Required',
+			unique: true,
+			match: [/.+@.+\..+/, 'Please enter a valid e-mail address'],
+		},
 
-    password: {
-      type: String,
-      trim: true,
-      required: 'Password is Required',
-      validate: [({ length }) => length >= 6, 'Password should be longer.']
-    },
-
-    email: {
-      type: String,
-      unique: true,
-      match: [/.+@.+\..+/, 'Please enter a valid e-mail address']
-    },
-
-    userCreated: {
-      type: Date,
-      default: Date.now
-    }
-  },
-  {
-    toJSON: {
-      virtuals: true
-    },
-    id: false
-  }
+		thoughts: {
+			_id: [
+				{
+					type: Schema.Types.ObjectId,
+					ref: 'Thought',
+				},
+			],
+		},
+		friends: {
+			_id: [
+				{
+					type: Schema.Types.ObjectId,
+					ref: 'User',
+				},
+			],
+		},
+	},
+	{
+		toJSON: {
+			virtuals: true,
+		},
+		id: false,
+	}
 );
 
-UserSchema.virtual('username').get(function() {
-  return this.email.slice(0, this.email.indexOf('@'));
+UserSchema.virtual('friendCount').get(function () {
+	return this.friends.length;
 });
 
 const User = model('User', UserSchema);
