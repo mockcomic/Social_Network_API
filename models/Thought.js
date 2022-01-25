@@ -33,7 +33,41 @@ const ThoughtSchema = new Schema(
 	},
 	{
 		toJSON: {
+			getters: true,
+		},
+	}
+);
+
+const ReactionSchema = new Schema(
+	{
+		reactionId: {
+			type: Schema.Types.ObjectId,
+			default: Schema.Types.ObjectId,
+		},
+
+		reactionBody: {
+			type: String,
+			required: 'reactionBody is Required',
+			validate: [
+				({ length }) => length <= 280,
+				'Must not exceed 280 characters.',
+			],
+		},
+
+		username: {
+			type: String,
+			required: 'username is Required',
+		},
+		createdAt: {
+			type: Date,
+			default: Date.now,
+			get: createdAtVal => dateFormat(createdAtVal),
+		},
+	},
+	{
+		toJSON: {
 			virtuals: true,
+			getters: true,
 		},
 		id: false,
 	}
@@ -43,6 +77,6 @@ ThoughtSchema.virtual('reactionCount').get(function () {
 	return this.reactions.length;
 });
 
-const User = model('Thought', ThoughtSchema);
+const Thought = model('Thought', ThoughtSchema);
 
-module.exports = User;
+module.exports = Thought;
