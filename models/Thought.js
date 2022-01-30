@@ -1,4 +1,3 @@
-const { type } = require('express/lib/response');
 const { Schema, model } = require('mongoose');
 
 const ThoughtSchema = new Schema(
@@ -22,14 +21,7 @@ const ThoughtSchema = new Schema(
 			required: 'username is Required',
 			trim: true,
 		},
-		reactions: {
-			_id: [
-				{
-					type: Schema.Types.ObjectId,
-					ref: 'reactionSchema',
-				},
-			],
-		},
+		reactions: [ReactionSchema],
 	},
 	{
 		toJSON: {
@@ -57,6 +49,7 @@ const ReactionSchema = new Schema(
 		username: {
 			type: String,
 			required: 'username is Required',
+			trim: true,
 		},
 		createdAt: {
 			type: Date,
@@ -66,7 +59,6 @@ const ReactionSchema = new Schema(
 	},
 	{
 		toJSON: {
-			virtuals: true,
 			getters: true,
 		},
 		id: false,

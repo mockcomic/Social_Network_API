@@ -1,4 +1,3 @@
-const { type } = require('express/lib/response');
 const { Schema, model } = require('mongoose');
 
 const UserSchema = new Schema(
@@ -25,14 +24,12 @@ const UserSchema = new Schema(
 				},
 			],
 		},
-		friends: {
-			_id: [
-				{
-					type: Schema.Types.ObjectId,
-					ref: 'User',
-				},
-			],
-		},
+		friends: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: 'User',
+			},
+		],
 	},
 	{
 		toJSON: {
