@@ -2,6 +2,8 @@
 
 ## Description
 
+A social media application where users can create thoughts and leave reactions to other user's thoughts
+
 ## User Story
 
 AS A social media startup
@@ -29,3 +31,5 @@ THEN I am able to successfully create, update, and delete users and thoughts in 
 THEN I am able to successfully create and delete reactions to thoughts and add and remove friends to a user’s friend list
 
 ## Video
+
+https://drive.google.com/file/d/1-UBn3SK-dqTH-F1AAOiqb5JL0QVsXWfe/view?usp=sharing
