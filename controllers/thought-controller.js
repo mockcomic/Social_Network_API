@@ -3,21 +3,19 @@ const { Thought, User } = require('../models');
 const thoughtController = {
 	async createThought({ body }, res) {
 		try {
-			const userData = await Thought.create(body).then(({ _id }) => {
-				return User.findOneAndUpdate(
-					{ _id: body.userId },
-					{ $push: { thoughts: _id } },
-					{ new: true }
-				).populate({ path: 'thoughts', select: '-__v' });
-			});
-
+			const userId = await Thought.create(body);
+			const userData = await User.findOneAndUpdate(
+				{ _id: body.userId },
+				{ $push: { thoughts: userId } },
+				{ new: true }
+			).populate({ path: 'thoughts', select: '-__v' });
 			if (!userData) {
 				res.status(404).json({ message: 'No user found with this id!' });
 				return;
 			}
 			res.json(userData);
 		} catch (error) {
-			error => res.json(error);
+			res.json(error);
 		}
 	},
 
